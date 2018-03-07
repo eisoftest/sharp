@@ -28,10 +28,10 @@ namespace MisTareas
                 else if (elem.IndexOfAny(consonantes) > -1) c++;
             }
 
-            Console.WriteLine("\nLetras: {0}", v + c);
-            Console.WriteLine("Espacios: {0}", t - v - c);
-            Console.WriteLine("Vocales: {0}", v);
-            Console.WriteLine("Consonantes: {0}", c);
+            Console.WriteLine("\nLetras (letters): {0}", v + c);
+            Console.WriteLine("Espacios (spaces): {0}", t - v - c);
+            Console.WriteLine("Vocales (vowels): {0}", v);
+            Console.WriteLine("Consonantes (consonants): {0}", c);
         }
     }
 
@@ -43,6 +43,7 @@ namespace MisTareas
             string ejemplo = "Brasil decirme que se siente";
             Contador obj = new Contador();
             obj.Cuentame(ejemplo);
+            Console.Write("Hit to end...");
             Console.ReadLine();
         }
     }
