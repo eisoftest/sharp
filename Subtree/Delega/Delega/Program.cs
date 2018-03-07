@@ -39,10 +39,10 @@ namespace mydelegates
 
             Gunner g = new Gunner();
             Gunner h = new Gunner();
-            g.Shooting(3, "Jim");
-            h.Shooting(2, "Dan");
+            g.Shooting(2, "Jim");
+            h.Shooting(3, "Dan");
 
-            Console.Write("\nEnd...");
+            Console.Write("\nHit to End...");
             Console.ReadLine();
         }
     }
