@@ -10,8 +10,12 @@ namespace ConsoleSelenium
         static void Main(string[] args)
         {
             var test = new CHtests();
-            bool ok = test.CHtestGoogle();
-            Console.WriteLine("CHtestGoogle Replied : " + ok.ToString());
+
+            //bool ok = test.CHtestGoogle();
+            //Console.WriteLine("CHtestGoogle Replied : " + ok.ToString());
+
+            string sok = test.CHtestGmail();
+            Console.WriteLine("CHtestGmail Replied : " + sok);
 
             Console.ReadLine();
 
@@ -60,7 +64,85 @@ namespace ConsoleSelenium
 
             return titleOk;
 
+        } // CHtestGoogle
+
+
+
+        internal string CHtestGmail()
+        {
+            string address = "test@gmail.com";
+            string pwd = "test";
+            string subject = "ChromeMessage";
+            string helloText = "Hello from Selenium!";
+
+            bool ok = false;
+
+            using (var driver = new ChromeDriver())
+            {
+                driver.Manage().Window.Maximize();
+                driver.Url = "https://mail.google.com/";
+
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                var obj = wait.Until(ExpectedConditions.ElementToBeClickable(By.Name("identifier")));
+                obj.SendKeys(address);
+
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+                obj = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(".//*[text()='Next']")));
+                obj.Click();
+
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                obj = wait.Until(ExpectedConditions.ElementToBeClickable(By.Name("password")));
+                obj.SendKeys(pwd);
+
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+                obj = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(".//*[text()='Next']")));
+                obj.Click();
+
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                obj = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(".//div[text()='COMPOSE']")));
+                obj.Click();
+
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+                obj = wait.Until(ExpectedConditions.ElementToBeClickable(By.Name("to")));
+                obj.SendKeys(address);
+
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+                obj = wait.Until(ExpectedConditions.ElementToBeClickable(By.Name("subjectbox")));
+                obj.SendKeys(subject);
+
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+                obj = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(".//div[@role='textbox']")));
+                obj.SendKeys(helloText);
+
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+                obj = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(".//*[text()='Send']")));
+                obj.Click();
+
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
+                bool closed = wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath(".//*[text()='Send']")));
+
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+                obj = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(".//*[starts-with(@title,'Google Account')]")));
+                obj.Click();
+
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+                obj = wait.Until(ExpectedConditions.ElementToBeClickable(By.LinkText("Sign out")));
+                obj.Click();
+
+                // normally the page for login password is displayed
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
+                obj = wait.Until(ExpectedConditions.ElementExists(By.Name("password")));
+
+                ok = true;
+
+                driver.Quit();
+
+            } // end using
+
+            return ok.ToString();
+
         } // CHtestGmail
+
 
 
     } // Chtests
