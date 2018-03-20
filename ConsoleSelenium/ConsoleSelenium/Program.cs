@@ -32,6 +32,14 @@ namespace ConsoleSelenium
 
     internal class CHtests
     {
+
+        internal void DoingNothing()
+        {
+
+        } // just testing GitHub
+
+
+
         internal bool CHtestGoogle()
         {
             bool titleOk = false;
@@ -148,7 +156,7 @@ namespace ConsoleSelenium
 
 
 
-        public string CHtestOlx()
+        internal string CHtestOlx()
         {
             string res = "Search error";
             string searchKey = "ipad";
