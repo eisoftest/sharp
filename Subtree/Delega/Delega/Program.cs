@@ -10,6 +10,12 @@ namespace mydelegates
 
 
 
+        internal void DoingNothing2()
+        {
+            // GitHub branching test 2
+        }
+
+
 
         internal void DoingNothing1()
         {
