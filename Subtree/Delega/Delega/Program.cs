@@ -8,6 +8,17 @@ namespace mydelegates
     {
         event MyTool Shot;
 
+
+
+
+        internal void DoingNothing1()
+        {
+            // GitHub branching test 1
+        }
+
+
+
+
         public Gunner()
         {
             Shot += new MyTool(OnShot);
