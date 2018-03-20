@@ -33,6 +33,12 @@ namespace ConsoleSelenium
     internal class CHtests
     {
 
+        internal void NewDoingNothing()
+        {
+            // testing yet another local branch creating scenario
+        } // just testing GitHub
+
+
         internal void DoingNothing()
         {
 
