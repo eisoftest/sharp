@@ -14,8 +14,11 @@ namespace ConsoleSelenium
             //bool ok = test.CHtestGoogle();
             //Console.WriteLine("CHtestGoogle Replied : " + ok.ToString());
 
-            string sok = test.CHtestGmail();
-            Console.WriteLine("CHtestGmail Replied : " + sok);
+            //string sok = test.CHtestGmail();
+            //Console.WriteLine("CHtestGmail Replied : " + sok);
+
+            string sok = test.CHtestOlx();
+            Console.WriteLine("CHtestOlx Replied : " + sok);
 
             Console.ReadLine();
 
@@ -142,6 +145,75 @@ namespace ConsoleSelenium
             return ok.ToString();
 
         } // CHtestGmail
+
+
+
+        public string CHtestOlx()
+        {
+            string res = "Search error";
+            string searchKey = "ipad";
+
+            using (var driver = new ChromeDriver())
+            {
+                driver.Manage().Window.Maximize();
+                var jse = (IJavaScriptExecutor)driver;
+
+                driver.Url = "https://www.olx.ro";
+
+                // closing bottom bar for informing about 
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
+                var obj = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(".//a[starts-with(@class,'cookiesBarClose') and contains(@class,'cfff')]")));
+                obj.Click();
+
+                // looking for a link to a list of cities
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+                obj = wait.Until(ExpectedConditions.ElementExists(By.XPath(".//a[@title='Harta judetelor']")));
+                jse.ExecuteScript("arguments[0].scrollIntoView(true)", obj);
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+                obj = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(".//a[@title='Harta judetelor']")));
+                obj.Click();
+
+                // looking for the link of city Oradea
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                obj = wait.Until(ExpectedConditions.ElementExists(By.XPath(".//a[@title='Anunturi Oradea']")));
+                jse.ExecuteScript("arguments[0].scrollIntoView(true)", obj);
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+                obj = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath(".//a[@title='Anunturi Oradea']")));
+                obj.Click();
+
+                // looking for the Search autocomplete field
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                obj = wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("search-text")));
+                obj.SendKeys(searchKey);
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+                wait.Until(ExpectedConditions.TextToBePresentInElementValue(By.Id("search-text"), searchKey));
+
+                // submitting the search
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+                obj = wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("search-submit")));
+                obj.Click();
+
+                // waiting for the results page
+                try
+                {
+                    wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                    obj = wait.Until(ExpectedConditions.ElementExists(By.XPath(".//div[starts-with(@class, 'dontHasPromoted')]")));
+                    obj = driver.FindElement(By.XPath(".//*[starts-with(text(),'Am gasit')]"));
+                    res = obj.Text;
+                }
+                catch
+                {
+                    obj = driver.FindElement(By.XPath(".//*[starts-with(text(),'Nu am gasit anunturi')]"));
+                    res = obj.Text;
+                }
+
+                driver.Quit();
+
+            } // end using
+
+            return res;
+
+        } // CHtestOlx
 
 
 
